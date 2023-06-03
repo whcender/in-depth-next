@@ -2,6 +2,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import Header from './components/navbar/Navbar'
 import ReduxProvider from './provides/reduxProvides'
+import ToasifyProvides from './provides/toasifyProvides'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ReduxProvider>
+          <ToasifyProvides />
           <Header />
           {children}
         </ReduxProvider>
