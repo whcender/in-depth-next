@@ -20,6 +20,7 @@ const Index: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    // not real api
     axios.post("/api/register", data)
       .then((res) => {
         console.log(res);
