@@ -9,7 +9,7 @@ import { type } from "os";
 const Index: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  
   const data = {
     email,
     password,
@@ -20,7 +20,7 @@ const Index: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // not real api
+    // not real api"
     axios.post("/api/register", data)
       .then((res) => {
         console.log(res);

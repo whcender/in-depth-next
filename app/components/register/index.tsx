@@ -20,8 +20,7 @@ const Index: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    axios
-      .post("/api/register", data)
+    axios.post("/api/register", data)
       .then((res) => {
         console.log(res);
         toast.success("Register Success");
