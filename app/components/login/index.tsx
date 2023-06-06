@@ -1,35 +1,37 @@
-"use client"
 import { useState } from "react";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { openModalFunc } from "@/app/redux/moduleSlice";
-import { type } from "os";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Index: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+
   const data = {
     email,
     password,
   };
 
-
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // not real api"
-    axios.post("/api/register", data)
-      .then((res) => {
-        console.log(res);
-        toast.success("Login Success");
-        dispatch(openModalFunc());
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Login Failed");
+    signIn("credentials", {
+      ...data,
+      redirect: false,
+    })
+      .then((callback) => {
+        if (callback?.ok) {
+          dispatch(openModalFunc());
+          router.refresh();
+          toast.success("Login Success");
+        }
+        if (callback?.error) {
+          toast.error("Login Failed");
+        }
       });
   };
 
@@ -52,7 +54,10 @@ const Index: React.FC = () => {
           placeholder="password"
           className="outline-none border p-3 w-full"
         />
-        <button type="submit" className="bg-black text-white p-3 w-full hover:bg-slate-900">
+        <button
+          type="submit"
+          className="bg-black text-white p-3 w-full hover:bg-slate-900"
+        >
           Login
         </button>
       </form>

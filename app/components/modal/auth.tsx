@@ -7,14 +7,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { openModalFunc } from '@/app/redux/moduleSlice';
 import { RootState } from '@/app/redux/store';
 import Image from 'next/image';
-import getCurrentUser from '@/app/actions/getCurrentUser';
+import { User } from '@prisma/client';
 
 type Props = {
   authtype: string;
   setAuthType: React.Dispatch<React.SetStateAction<string>>;
+  user: User | any | undefined;
 };
 
-const Auth: React.FC<Props> = ({ authtype, setAuthType }) => {
+const Auth = ({ authtype, setAuthType, user }: Props) => {
   const dispatch = useDispatch();
   const { openModal } = useSelector((state: RootState) => state.modal);
 
@@ -22,13 +23,20 @@ const Auth: React.FC<Props> = ({ authtype, setAuthType }) => {
   // user controller
 
 
+
   if (!openModal) return null;
   return (
     <div className='bg-transition z-50 absolute bg-black bg-opacity-60 left-0 top-0  h-[100vh] w-full flex items-center justify-center'>
       <div className='bg-white h-[600px] opacity-100 w-1/3 flex justify-center items-center flex-col relative rounded-lg'>
         <div className='flex justify-around w-full absolute rounded-lg top-0'>
-
-          <button className={`bg-slate-300 p-3 w-1/2 hover:bg-slate-200 ${authtype === "login" ? "border-b-4" : "bg-slate-300"}`} onClick={() => {
+          {
+            user ? (
+              <>
+                <p>girdin zati</p>
+              </>
+            ) : (
+              <>
+                        <button className={`bg-slate-300 p-3 w-1/2 hover:bg-slate-200 ${authtype === "login" ? "border-b-4" : "bg-slate-300"}`} onClick={() => {
             setAuthType("login");
           }}>Login</button>
           <button className={`bg-slate-300 p-3 w-1/2 hover:bg-slate-200 ${authtype === "register" ? "border-b-4" : "bg-slate-300"}`} onClick={() => {
@@ -39,6 +47,10 @@ const Auth: React.FC<Props> = ({ authtype, setAuthType }) => {
               dispatch(openModalFunc());
             }} />
           </button>
+              </>
+            )
+          }
+  
         </div>
         {authtype === "login" ? <Login /> : authtype === "register" && <Register />}
         <button className="bg-white flex justify-center items-center gap-2 border text-black p-3 w-5/6 hover:bg-slate-200 ">Login With

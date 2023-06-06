@@ -4,9 +4,10 @@ import { useState } from "react";
 import Auth from "../modal/auth";
 import { useDispatch } from 'react-redux';
 import { openModalFunc } from '@/app/redux/moduleSlice';
+import { User } from "@prisma/client";
 
 
-const UserMenu = () => {
+const UserMenu = ({user} : {user: User | any | undefined}) => {
     const [open, setOpen] = useState(false);
     const [showAuth, setShowAuth] = useState(false);
     const [authType, setauthType] = useState(" ");
@@ -30,7 +31,7 @@ const UserMenu = () => {
     
     return (
         <>
-            {showAuth && <Auth authtype = {authType} setAuthType= {setauthType}/>}
+            {showAuth && <Auth user={user} authtype = {authType} setAuthType= {setauthType}/>}
 
             <div className="relative flex items-center">
                 <GiHamburgerMenu
